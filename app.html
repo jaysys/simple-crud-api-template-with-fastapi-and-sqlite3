@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FastAPI CRUD Operations</title>
+  </head>
+  <body>
+    <h2>FastAPI CRUD Operations with AXIOS</h2>
+    <div>
+      <button onclick="createItem()">Create Item</button>
+      <button onclick="readItem()">Read Item</button>
+      <button onclick="updateItem()">Update Item</button>
+      <button onclick="deleteItem()">Delete Item</button>
+    </div>
+
+    <div id="output"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      const baseURL = "http://localhost:8000"; // FastAPI 서버 주소
+
+      // 아이템 생성 함수
+      async function createItem() {
+        try {
+          const newItem = {
+            name: "사과",
+            price: 10.99,
+          };
+
+          const response = await axios.post(`${baseURL}/items/`, newItem);
+          document.getElementById("output").innerText = JSON.stringify(
+            response.data
+          );
+        } catch (error) {
+          document.getElementById("output").innerText = JSON.stringify(
+            error.response.data
+          );
+        }
+      }
+
+      // 아이템 조회 함수
+      async function readItem() {
+        try {
+          const response = await axios.get(`${baseURL}/items/1`);
+          document.getElementById("output").innerText = JSON.stringify(
+            response.data
+          );
+        } catch (error) {
+          document.getElementById("output").innerText = JSON.stringify(
+            error.response.data
+          );
+        }
+      }
+
+      // 아이템 업데이트 함수
+      async function updateItem() {
+        try {
+          const updatedItem = {
+            name: "사과할인",
+            price: 5.99,
+          };
+
+          const response = await axios.put(`${baseURL}/items/1`, updatedItem);
+          document.getElementById("output").innerText = JSON.stringify(
+            response.data
+          );
+        } catch (error) {
+          document.getElementById("output").innerText = JSON.stringify(
+            error.response.data
+          );
+        }
+      }
+
+      // 아이템 삭제 함수
+      async function deleteItem() {
+        try {
+          const response = await axios.delete(`${baseURL}/items/1`);
+          document.getElementById("output").innerText = JSON.stringify(
+            response.data
+          );
+        } catch (error) {
+          document.getElementById("output").innerText = JSON.stringify(
+            error.response.data
+          );
+        }
+      }
+    </script>
+  </body>
+</html>
