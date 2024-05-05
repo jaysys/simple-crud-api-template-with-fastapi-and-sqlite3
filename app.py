@@ -41,17 +41,6 @@ class Item(BaseModel):
     price: float
 
 
-# 아이템 생성
-@app.post("/items/", summary="Create Item", tags=["Items"])
-async def create_item(item: Item):
-    """
-    Create a new item.
-    """
-    cursor.execute("INSERT INTO items (name, price) VALUES (?, ?)", (item.name, item.price))
-    conn.commit()
-    print({"message": "Item created successfully"})    
-    return {"message": "Item created successfully"}
-
 
 # 아이템 조회
 @app.get("/items/{item_id}", summary="Read Item", tags=["Items"])
@@ -65,6 +54,46 @@ async def read_item(item_id: int):
         raise HTTPException(status_code=404, detail="Item not found")
     print ({"id": item[0], "name": item[1], "price": item[2]})
     return {"id": item[0], "name": item[1], "price": item[2]}
+
+
+# 아이템 전체 목록 조회
+@app.get("/items/", summary="Read All Item", tags=["Items"])
+async def read_all_items():
+    """
+    Read details of all items.
+    """
+    try: 
+        cursor.execute("SELECT * FROM items")
+        items = cursor.fetchall()
+        import pprint
+        pprint.pprint(items)
+        # return {dict(item) for item in items}    <-- NG!
+        # Fetch column names to use as dictionary keys
+        column_names = [desc[0] for desc in cursor.description]
+        # Convert each row into a dictionary
+        result = []
+        for item in items:
+            result.append({column_names[i]: item[i] for i in range(len(item))})
+        pprint.pprint(result)     
+        return result
+
+
+
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+#"detail": "cannot convert dictionary update sequence element #0 to a sequence"
+
+# 아이템 생성
+@app.post("/items/", summary="Create Item", tags=["Items"])
+async def create_item(item: Item):
+    """
+    Create a new item.
+    """
+    cursor.execute("INSERT INTO items (name, price) VALUES (?, ?)", (item.name, item.price))
+    conn.commit()
+    print({"message": "Item created successfully"})    
+    return {"message": "Item created successfully"}
 
 
 # 아이템 업데이트
