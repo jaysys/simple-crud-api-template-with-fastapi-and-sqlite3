@@ -86,7 +86,7 @@ const rl = readline.createInterface({
 // 콘솔 메뉴 실행
 function runConsoleMenu() {
   showMenu();
-  let num = 8; //n번째 test data
+  let num = 8; //n번째 하드코딩캆으로 CRUD테스트 해보는 js code 입니다. 유의하세요.
   console.log("Testing On Item ID:", num);
 
   rl.question("Select an option: ", async function (option) {
