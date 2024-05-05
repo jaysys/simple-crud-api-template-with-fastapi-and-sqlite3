@@ -68,12 +68,12 @@ async function deleteItem(itemId) {
 // 콘솔 메뉴 표시 함수
 function showMenu() {
   console.log("=== Console Menu ===");
+  console.log("0. Read All Items");
   console.log("1. Create Item");
-  console.log("2. Read Item");
-  console.log("3. Update Item");
-  console.log("4. Delete Item");
-  console.log("5. Read All Items");
-  console.log("6. Exit");
+  console.log("2. Read [n]th Item");
+  console.log("3. Update [n]th Item");
+  console.log("4. Delete [n]th Item");
+  console.log("9. Exit");
   console.log("====================");
 }
 
@@ -86,29 +86,32 @@ const rl = readline.createInterface({
 // 콘솔 메뉴 실행
 function runConsoleMenu() {
   showMenu();
+  let num = 8; //n번째 test data
+  console.log("Testing On Item ID:", num);
+
   rl.question("Select an option: ", async function (option) {
     switch (option) {
+      case "0":
+        console.log("\nRead All Items...");
+        await readAllItems(); // 전체 조회
+        break;
       case "1":
         console.log("Creating item...");
         await createItem();
         break;
       case "2":
-        console.log("\nReading item...");
-        await readItem(1); // 조회할 아이템 ID 입력
+        console.log("\nReading an item...", num);
+        await readItem(num); // 조회할 아이템 ID 입력
         break;
       case "3":
-        console.log("\nUpdating item...");
-        await updateItem(1); // 업데이트할 아이템 ID 입력
+        console.log("\nUpdating item...", num);
+        await updateItem(num); // 업데이트할 아이템 ID 입력
         break;
       case "4":
-        console.log("\nDeleting item...");
-        await deleteItem(1); // 삭제할 아이템 ID 입력
+        console.log("\nDeleting item...", num);
+        await deleteItem(num); // 삭제할 아이템 ID 입력
         break;
-      case "5":
-        console.log("\nRead All Items...");
-        await readAllItems(); // 전체 조회
-        break;
-      case "6":
+      case "9":
         console.log("Exiting...");
         rl.close();
         return;
