@@ -30,6 +30,16 @@ async function readItem(itemId) {
   }
 }
 
+// 아이템 조회 함수
+async function readAllItems(itemId) {
+  try {
+    const response = await axios.get(`${baseURL}/items/`);
+    console.log(response.data);
+  } catch (error) {
+    console.error("Error reading item:", error.response.data);
+  }
+}
+
 // 아이템 업데이트 함수
 async function updateItem(itemId) {
   try {
@@ -62,7 +72,8 @@ function showMenu() {
   console.log("2. Read Item");
   console.log("3. Update Item");
   console.log("4. Delete Item");
-  console.log("5. Exit");
+  console.log("5. Read All Items");
+  console.log("6. Exit");
   console.log("====================");
 }
 
@@ -94,6 +105,10 @@ function runConsoleMenu() {
         await deleteItem(1); // 삭제할 아이템 ID 입력
         break;
       case "5":
+        console.log("\nRead All Items...");
+        await readAllItems(); // 전체 조회
+        break;
+      case "6":
         console.log("Exiting...");
         rl.close();
         return;
