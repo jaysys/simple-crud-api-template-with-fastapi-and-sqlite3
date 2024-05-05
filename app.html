@@ -12,6 +12,7 @@
       <button onclick="readItem()">Read Item</button>
       <button onclick="updateItem()">Update Item</button>
       <button onclick="deleteItem()">Delete Item</button>
+      <button onclick="readAllItems()">Read All Items</button>
     </div>
 
     <div id="output"></div>
@@ -43,6 +44,19 @@
       async function readItem() {
         try {
           const response = await axios.get(`${baseURL}/items/1`);
+          document.getElementById("output").innerText = JSON.stringify(
+            response.data
+          );
+        } catch (error) {
+          document.getElementById("output").innerText = JSON.stringify(
+            error.response.data
+          );
+        }
+      }
+
+      async function readAllItems() {
+        try {
+          const response = await axios.get(`${baseURL}/items/`);
           document.getElementById("output").innerText = JSON.stringify(
             response.data
           );
